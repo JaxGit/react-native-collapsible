@@ -1,7 +1,7 @@
 {
-  "name": "react-native-collapsible",
-  "version": "0.5.5",
-  "description": "Animated collapsible component for React Native using the Animated API. Good for accordions, toggles etc",
+  "name": "react-native-collapsible-touchable-child-fix",
+  "version": "0.5.6",
+  "description": "Quickest fix for 'Touchable child must either be native or forward setNativeProps to a native component' when working with rn 0.24.1 and router-flux",
   "main": "Collapsible.js",
   "scripts": {
     "test": "flow check"
