@@ -12,7 +12,7 @@ npm install --save react-native-collapsible
 ## Collapsible Usage
 
 ```js
-var Collapsible = require('react-native-collapsible');
+import Collapsible from 'react-native-collapsible';
 <Collapsible collapsed={isCollapsed}>
   <SomeCollapsedView />
 </Collapsible>
@@ -24,6 +24,7 @@ var Collapsible = require('react-native-collapsible');
 |---|---|---|
 |**`align`**|Alignment of the content when transitioning, can be `top`, `center` or `bottom`|`top`|
 |**`collapsed`**|Wether to show the child components or not|`true`|
+|**`collapsedHeight`**|Which height should the component collapse to|`0`|
 |**`duration`**|Duration of transition in milliseconds|`300`|
 |**`easing`**|Function or function name from [`Easing`](https://github.com/facebook/react-native/blob/master/Libraries/Animated/src/Easing.js) (or [`tween-functions`](https://github.com/chenglou/tween-functions) if < RN 0.8). Collapsible will try to combine `Easing` functions for you if you name them like `tween-functions`. |`easeOutCubic`|
 
@@ -32,7 +33,7 @@ var Collapsible = require('react-native-collapsible');
 This is a convenience component for a common use case, see demo below. 
 
 ```js
-var Accordion = require('react-native-collapsible/Accordion');
+import Accordion from 'react-native-collapsible/Accordion';
 <Accordion 
   sections={['Section 1', 'Section 2', 'Section 3']}
   renderHeader={this._renderHeader}
@@ -48,7 +49,8 @@ var Accordion = require('react-native-collapsible/Accordion');
 |**`renderHeader(content, index, isActive)`**|A function that should return a renderable representing the header|
 |**`renderContent(content, index, isActive)`**|A function that should return a renderable representing the content|
 |**`onChange(index)`**|An optional function that is called when currently active section is changed, `index === false` when collapsed|
-|**`initiallyActiveSection`**|Which index in the `sections` array to be initially open. Defaults to none. |
+|**`initiallyActiveSection`**|Set which index in the `sections` array is initially open. Defaults to none. |
+|**`activeSection`**|Control which index in the `sections` array is currently open. Defaults to none. If false, closes all sections.|
 |**`underlayColor`**|The color of the underlay that will show through when tapping on headers. Defaults to black. |
 |**`align`**|See `Collapsible`|
 |**`duration`**|See `Collapsible`|
@@ -63,10 +65,10 @@ var Accordion = require('react-native-collapsible/Accordion');
 Check full example in the `Example` folder. 
 
 ```js
-var React = require('react-native');
-var Accordion = require('react-native-collapsible/Accordion');
+import React, { Component } from 'react-native';
+import Accordion from 'react-native-collapsible/Accordion';
 
-var SECTIONS = [
+const SECTIONS = [
   {
     title: 'First',
     content: 'Lorem ipsum...',
@@ -77,14 +79,14 @@ var SECTIONS = [
   }
 ];
 
-var AccordionView = React.createClass({
+class AccordionView extends Component {
   _renderHeader(section) {
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>{section.title}</Text>
       </View>
     );
-  },
+  }
 
   _renderContent(section) {
     return (
@@ -92,9 +94,9 @@ var AccordionView = React.createClass({
         <Text>{section.content}</Text>
       </View>
     );
-  },
+  }
 
-  render: function() {
+  render {
     return (
       <Accordion
         sections={SECTIONS}
@@ -103,7 +105,7 @@ var AccordionView = React.createClass({
       />
     );
   }
-});
+}
 ```
 
 ### Transition backgrounds
@@ -112,7 +114,7 @@ If you combine with the [`react-native-animatable`](https://github.com/oblador/r
 
 Lets augment the example above with:
 ```js
-var Animatable = require('react-native-animatable');
+import * as Animatable from 'react-native-animatable';
 
 (...)
 
@@ -126,7 +128,8 @@ var Animatable = require('react-native-animatable');
         <Text style={styles.headerText}>{section.title}</Text>
       </Animatable.View>
     );
-  },
+  }
+
   _renderContent(section, i, isActive) {
     return (
       <Animatable.View
@@ -142,7 +145,7 @@ var Animatable = require('react-native-animatable');
         </Animatable.Text>
       </Animatable.View>
     );
-  },
+  }
 
 (...)
 ```

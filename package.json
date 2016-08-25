@@ -1,10 +1,10 @@
 {
   "name": "react-native-collapsible-touchable-child-fix",
-  "version": "0.5.6",
-  "description": "Quickest fix for 'Touchable child must either be native or forward setNativeProps to a native component' when working with rn 0.24.1 and router-flux",
+  "version": "0.7.0",
+  "description": "Quickest fix for 'Touchable child must either be native or forward setNativeProps to a native component' when working with rn 0.31.0 and router-flux",
   "main": "Collapsible.js",
   "scripts": {
-    "test": "flow check"
+    "test": "eslint *.js"
   },
   "keywords": [
     "react-native",
@@ -29,5 +29,11 @@
   "bugs": {
     "url": "https://github.com/oblador/react-native-collapsible/issues"
   },
-  "homepage": "https://github.com/oblador/react-native-collapsible"
+  "homepage": "https://github.com/oblador/react-native-collapsible",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-eslint": "^4.1.6",
+    "eslint": "^1.10.3",
+    "eslint-plugin-react": "^3.14.0"
+  }
 }

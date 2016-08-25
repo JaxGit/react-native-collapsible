@@ -1,61 +1,74 @@
-/**
- * @providesModule Accordion
- * @flow
- */
-'use strict';
+import React, {
+  Component,
+  PropTypes,
+} from 'react';
 
-var React = require('react-native');
-var {
+import {
   View,
-  Text,
   TouchableOpacity,
-} = React;
+} from 'react-native';
 
-var Collapsible = require('./Collapsible');
+import Collapsible from './Collapsible';
 
-var COLLAPSIBLE_PROPS = Object.keys(Collapsible.propTypes);
-var VIEW_PROPS = Object.keys(View.propTypes);
+const COLLAPSIBLE_PROPS = Object.keys(Collapsible.propTypes);
+const VIEW_PROPS = Object.keys(View.propTypes);
 
-var Accordion = React.createClass({
-  propTypes: {
-    sections:               React.PropTypes.array.isRequired,
-    renderHeader:           React.PropTypes.func.isRequired,
-    renderContent:          React.PropTypes.func.isRequired,
-    onChange:               React.PropTypes.func,
-    align:                  React.PropTypes.oneOf(['top', 'center', 'bottom']),
-    duration:               React.PropTypes.number,
-    easing:                 React.PropTypes.string,
-    initiallyActiveSection: React.PropTypes.number,
-    underlayColor:          React.PropTypes.string,
-  },
+class Accordion extends Component {
+  static propTypes = {
+    sections: PropTypes.array.isRequired,
+    renderHeader: PropTypes.func.isRequired,
+    renderContent: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    align: PropTypes.oneOf(['top', 'center', 'bottom']),
+    duration: PropTypes.number,
+    easing: PropTypes.string,
+    initiallyActiveSection: PropTypes.number,
+    activeSection: PropTypes.oneOfType([
+      PropTypes.bool, // if false, closes all sections
+      PropTypes.number, // sets index of section to open
+    ]),
+    underlayColor: PropTypes.string,
+  };
 
-  getDefaultProps: function() : Object {
-    return {
-      underlayColor: 'black',
+  static defaultProps = {
+    underlayColor: 'black',
+  };
+
+  constructor(props) {
+    super(props);
+
+    // if activeSection not specified, default to initiallyActiveSection
+    this.state = {
+      activeSection: props.activeSection !== undefined ? props.activeSection : props.initiallyActiveSection,
     };
-  },
+  }
 
-  getInitialState: function() : Object {
-    return {
-      activeSection: this.props.initiallyActiveSection,
-    };
-  },
+  _toggleSection(section) {
+    const activeSection = this.state.activeSection === section ? false : section;
 
-  _toggleSection(section : number) : void {
-    var activeSection = this.state.activeSection === section ? false : section;
-    this.setState({ activeSection });
-    if(this.props.onChange) {
+    if (this.props.activeSection === undefined) {
+      this.setState({ activeSection });
+    }
+    if (this.props.onChange) {
       this.props.onChange(activeSection);
     }
-  },
+  }
 
-  render() : ReactElement {
-    var viewProps = {};
-    var collapsibleProps = {};
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeSection !== undefined) {
+      this.setState({
+        activeSection: nextProps.activeSection,
+      });
+    }
+  }
+
+  render() {
+    let viewProps = {};
+    let collapsibleProps = {};
     Object.keys(this.props).forEach((key) => {
-      if(COLLAPSIBLE_PROPS.indexOf(key) !== -1) {
+      if (COLLAPSIBLE_PROPS.indexOf(key) !== -1) {
         collapsibleProps[key] = this.props[key];
-      } else if(VIEW_PROPS.indexOf(key) !== -1) {
+      } else if (VIEW_PROPS.indexOf(key) !== -1) {
         viewProps[key] = this.props[key];
       }
     });
@@ -75,6 +88,6 @@ var Accordion = React.createClass({
       </View>
     );
   }
-});
+}
 
 module.exports = Accordion;
